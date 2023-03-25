@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enregistrement{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="column is-offset-4 has-text-centered is-one-quarter">
+            {{ form_start(registrationForm) }}
+            {{ form_widget(registrationForm) }}
+            <br>
+            <button type="submit" class="button is-primary is-outlined">S'enregistrer</button>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}

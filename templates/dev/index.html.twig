@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dev Index{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="columns has-text-left box">
+            {% if app.user %}
+                <div class="column is-2">
+                    Filtrer par langage :
+                </div>
+                {% for langage in listeDesLangages %}
+                    <div class="column is-1">
+                        <a href="{{ path('dev_filtre', {'param': langage.id}) }}">{{ langage.nom }}</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if not app.user %}
+                <div class="column notification is-warning is-light has-text-centered">Vous devez être authentifié pour
+                    voir la liste des
+                    développeurs
+                </div>
+            {% endif %}
+        </div>
+        <div class="columns">
+            <div class="column">{{ listeDev | length }} développeurs en base de données.</div>
+        </div>
+        {% if app.user %}
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <style>
+                        .td_langage {
+                            width: 70%;
+                        }
+                    </style>
+                    <table class="table is-fullwidth is-narrow is-hoverable">
+                        <tbody>
+                        {% for dev in listeDev %}
+                            {% if dev != app.user %}
+                                <tr>
+                                    <td>{{ dev.pseudo }} ({{ dev.amis | length }})</td>
+                                    <td class="td_langage">
+                                        <div class="columns">
+                                            {% for langage in dev.langages %}
+                                                <div class="column is-1">
+                                                    <img class="image is-32x32"
+                                                         src="{{ asset('img/langages/'~langage.image) }}"
+                                                         alt="{{ langage.nom }}"></div>
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% if dev in app.user.amis %}
+                                            <a href="{{ path('dev_retirer_ami', {'id': dev.id}) }}"><span
+                                                        class="icon"><i
+                                                            class="fas fa-users-slash"></i></span></a>
+                                        {% else %}
+                                            <a href="{{ path('dev_ajouter_ami', {'id': dev.id}) }}"><span
+                                                        class="icon"><i
+                                                            class="fas fa-user-friends"></i></span></a>
+                                        {% endif %}
+                                    </td>
+                                    <td><a href="{{ path('message_index', {'id': dev.id}) }}"><span class="icon"><i
+                                                        class="fas fa-inbox"></i></span></a></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

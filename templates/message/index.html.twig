@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MessageController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="column is-offset-4 has-text-centered is-one-quarter">
+            {{ form_start(messageForm) }}
+            {{ form_widget(messageForm) }}
+            <br><br>
+            <button class="button is-primary is-outlined">Envoyer</button>
+            {{ form_end(messageForm) }}
+        </div>
+    </div>
+{% endblock %}

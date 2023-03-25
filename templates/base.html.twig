@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}DevApp{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/5bcf915cc6.js" crossorigin="anonymous"></script>
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<div class="container">
+    <nav class="navbar">
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="{{ path('dev_index') }}">Accueil</a>
+                {% if app.user %}
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a class="navbar-item" href="{{ path('langage_ajouter') }}">Ajouter un langage de
+                            programmation</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="navbar-end">
+                {% if not app.user %}
+                    <div class="buttons">
+                        <a class="navbar-item button is-primary" href="{{ path('app_login') }}">Se connecter</a>
+                        <a class="navbar-item button is-light" href="{{ path('app_register') }}">S'enregistrer</a>
+                    </div>
+                {% endif %}
+                {% if app.user %}
+                    <a class="navbar-item" href="{{ path('app_logout') }}">Se deconnecter ({{ app.user.pseudo }}
+                        ({{ app.user.amis | length }}))</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+</div>
+<br>
+<body>
+<div class="container">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }} notification is-primary is-light box">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+<br>
+{% block body %}{% endblock %}
+</div>
+</body>
+</html>

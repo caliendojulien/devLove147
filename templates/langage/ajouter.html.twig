@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un langage{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="column is-offset-4 has-text-centered is-one-quarter">
+            {{ form_start(langageForm) }}
+            {{ form_widget(langageForm) }}
+            <br><br>
+            <button class="button is-outlined is-primary">Ajouter</button>
+            {{ form_end(langageForm) }}
+        </div>
+    </div>
+{% endblock %}
